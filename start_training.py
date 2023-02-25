@@ -1,9 +1,10 @@
 from fedlearn.tasks import train
 from fedlearn.utils import MAX_TRAINING_ROUNDS
+import sys
 
-def main():
-
-    res = train.apply_async((), queue="trainer1", countdown=2)
+def main(q):
+    
+    res = train.apply_async((), queue=q, countdown=2)
     result = res.get(timeout=4, propagate=False)
     print(result)
     print(res.failed())
@@ -11,4 +12,5 @@ def main():
     print(res.state)
 
 if __name__ == '__main__':
-    main()
+    q = sys.argv[1]
+    main(q)
